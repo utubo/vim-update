@@ -1,11 +1,11 @@
 # vim-update
-vim-update is update your running vim.  
-(vim-update supports gvim.exe (win32 x64) only)
+vim-update updates your running vim.  
+(vim-update supports only gvim.exe for Win32 x64)
 
 ## Installation
-Path to this plugin.  
+Path to this plugin:  
 
-e.g)
+e.g.)
 ```bash
 cd ~/.vim/pack/foo/opt
 clone https://github.com/utubo/vim-update.git
@@ -19,8 +19,8 @@ packadd vim-update
 call vimupdate#Update()
 ```
 
-You can define a command to vim-update.  
-e.g)
+You can define a command for vim-update as follows:  
+e.g.)
 ```vimscript
 command! VimUpdate packadd vim-update|call vimupdate#Update()
 ```
