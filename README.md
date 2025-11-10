@@ -25,3 +25,6 @@ e.g)
 command! VimUpdate packadd vim-update|call vimupdate#Update()
 ```
 
+## License
+[NYSL](http://www.kmonos.net/nysl/index.en.html)
+
