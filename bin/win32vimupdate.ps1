@@ -33,12 +33,12 @@ if ($currentVersionLongInt -ge $latestVersionLong) {
 $vimProcesses = Get-Process -Name vim, gvim -ErrorAction SilentlyContinue
 if (-not $vimProcesses) {
   Write-Host "No running Vim process found."
-  $exeToStart = "gvim.exe"  # default fallback
+  $exeToStart = "gvim.exe" # default fallback
 } else {
   # Take the first found process and get the executable name
   $process = $vimProcesses | Select-Object -First 1
   Stop-Process -Id $process.Id -Force
-  $exeToStart = $process.ProcessName + ".exe"  # either vim.exe or gvim.exe
+  $exeToStart = $process.ProcessName + ".exe" # either vim.exe or gvim.exe
   Write-Host "Terminated running process $exeToStart"
 }
 
@@ -61,17 +61,17 @@ Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $zipFilePath
 Write-Host "Extracting archive to $tempExtract ..."
 Expand-Archive -Path $zipFilePath -DestinationPath $tempExtract -Force
 
-$prevDir = $VimRuntime  + '_prev'
+$prevDir = $VimRuntime + '_prev'
 if (Test-Path $prevDir) {
-  Write-Host "Removing previous previous backup folder: $prevDir"
+  Write-Host "Removing previous backup folder: $prevDir"
   Remove-Item -Path $prevDir -Recurse -Force
 }
 if (Test-Path $VimRuntime) {
-  Write-Host "Renaming $VimRuntime to $prevDir"
+  Write-Host "Renaming $VimRuntime to backup folder: $prevDir"
   Move-Item $VimRuntime $prevDir
 }
 
-$majorMinor = ($latestTag.Replace('v', '').Split('.'))[0..1] -join ''  # "v91"
+$majorMinor = ($latestTag.Replace('v', '').Split('.'))[0..1] -join ''
 $internalPath = Join-Path $tempExtract ('vim\vim' + $majorMinor)
 Write-Host "Renaming $internalPath to $VimRuntime"
 Move-Item $internalPath $VimRuntime
