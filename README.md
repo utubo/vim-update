@@ -8,7 +8,7 @@ Path to this plugin:
 e.g.)
 ```bash
 cd ~/.vim/pack/foo/opt
-clone https://github.com/utubo/vim-update.git
+git clone https://github.com/utubo/vim-update.git
 ```
 ```vimscript
 packadd vim-update
