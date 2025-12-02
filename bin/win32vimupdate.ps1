@@ -1,6 +1,8 @@
 param (
-  [string]$currentVersionLong,
-  [string]$VimRuntime
+  [string]$CurrentVersionLong,
+  [string]$VimRuntime,
+  [switch]$Checkonly,
+  [string]$Sessionfile
 )
 
 $ErrorActionPreference = "Stop"
@@ -21,11 +23,17 @@ function Convert-TagToVersionLong($tag) {
 }
 
 $latestVersionLong = Convert-TagToVersionLong $latestTag
-$currentVersionLongInt = [int]$currentVersionLong
+$currentVersionLongInt = [int]$CurrentVersionLong
 
 # Exit if current version is up-to-date or newer
 if ($currentVersionLongInt -ge $latestVersionLong) {
-  Write-Host "Already up to date: current $currentVersionLong >= latest $latestVersionLong"
+  Write-Host "Already up to date: current $CurrentVersionLong >= latest $latestVersionLong"
+  exit 0
+} else {
+  Write-Host "A new version is available: current $CurrentVersionLong >= latest $latestVersionLong"
+}
+
+if ($Checkonly) {
   exit 0
 }
 
@@ -80,8 +88,12 @@ Write-Host "Removing temporary folder: $downloadFolder"
 Remove-Item -Path $downloadFolder -Recurse -Force
 
 # 4. Restart the same Vim executable that was previously running
+$restoreSession = ''
+if (Test-Path $SessionFile) {
+  $restoreSEssion = "-S $SessionFile -c `"silent !del $SessionFile 2>nul`" -c `"redraw!`""
+}
 Write-Host "Restarting $exeToStart ..."
-Start-Process -FilePath $VimRuntime\$exeToStart
+Start-Process -FilePath $VimRuntime\$exeToStart $restoreSession
 
 Write-Host "Update completed."
 

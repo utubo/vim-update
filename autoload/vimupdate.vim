@@ -5,6 +5,13 @@ function! vimupdate#Update() abort
     return
   endif
   let ps_script = s:plugin_dir .. '\bin\win32vimupdate.ps1'
-  echo system($'powershell.exe -NoProfile -ExecutionPolicy Bypass -File {ps_script} -currentVersionLong {v:versionlong} -VimRuntime {shellescape($VIMRUNTIME)}')
+  let check_result = system($'powershell.exe -NoProfile -ExecutionPolicy Bypass -File {ps_script} -CurrentVersionLong {v:versionlong} -VimRuntime {shellescape($VIMRUNTIME)} -Checkonly')
+  if check_result =~# 'Already up to date'
+    echo check_result
+    return
+  endif
+  let sess = tempname()
+  execute 'mksession' sess
+  call system($'start powershell.exe -NoProfile -ExecutionPolicy Bypass -File {ps_script} -currentVersionLong {v:versionlong} -VimRuntime {shellescape($VIMRUNTIME)} -SessionFile {shellescape(sess)}')
 endfunction
 
