@@ -17,6 +17,6 @@ function! vimupdate#Update() abort
   endif
   let sess = tempname()
   execute 'mksession' sess
-  call system($'{cmd} -SessionFile {shellescape(sess)}')
+  call system($'start {cmd} -SessionFile {shellescape(sess)}')
 endfunction
 
