@@ -27,10 +27,10 @@ $currentVersionLongInt = [int]$CurrentVersionLong
 
 # Exit if current version is up-to-date or newer
 if ($currentVersionLongInt -ge $latestVersionLong) {
-  Write-Host "Already up to date: current $CurrentVersionLong >= latest $latestVersionLong"
+  Write-Host "Already up to date: current $CurrentVersionLong / latest $latestVersionLong"
   exit 0
 } else {
-  Write-Host "A new version is available: current $CurrentVersionLong < latest $latestVersionLong"
+  Write-Host "A new version is available: current $CurrentVersionLong -> latest $latestVersionLong"
 }
 
 if ($Checkonly) {
