@@ -15,7 +15,7 @@ function Convert-TagToVersionLong($tag) {
   if ($tag -match '^v(\d+)\.(\d+)\.(\d+)$') {
     $major = "{0:D2}" -f [int]$matches[1]
     $minor = "{0:D2}" -f [int]$matches[2]
-    $patch = "{0:D2}" -f [int]$matches[3]
+    $patch = "{0:D4}" -f [int]$matches[3]
     return [int]($major + $minor + $patch)
   } else {
     throw "Tag name format unexpected: $tag"
