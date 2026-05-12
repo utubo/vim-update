@@ -2,10 +2,19 @@ param (
   [string]$CurrentVersionLong,
   [string]$VimRuntime,
   [switch]$Checkonly,
-  [string]$Sessionfile
+  [string]$Sessionfile,
+  [bool]$PauseOnError = $true
 )
 
 $ErrorActionPreference = "Stop"
+
+trap {
+  Write-Host "`n[ERROR]: $_" -ForegroundColor Red
+  if ($PauseOnError) {
+    Read-Host "Press Enter to exit"
+  }
+  exit
+}
 
 # 1. Retrieve the latest release tag from GitHub API
 $releaseJson = Invoke-WebRequest -Uri "https://api.github.com/repos/vim/vim-win32-installer/releases/latest" -UseBasicParsing | ConvertFrom-Json
