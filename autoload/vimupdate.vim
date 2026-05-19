@@ -11,12 +11,14 @@ function! vimupdate#Update() abort
         \ $'-VimRuntime {shellescape($VIMRUNTIME)}'
         \ ]->join(' ')
   let check_result = system($'{cmd} -Checkonly')->trim()
+  echo check_result
   if check_result =~# 'Already up to date'
-    echo check_result
     return
   endif
+  echo 'confirm qall'
   let sess = tempname()
   execute 'mksession' sess
   call system($'start {cmd} -SessionFile {shellescape(sess)}')
+  confirm qa
 endfunction
 

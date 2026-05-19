@@ -54,9 +54,12 @@ if (-not $vimProcesses) {
 } else {
   # Take the first found process and get the executable name
   $process = $vimProcesses | Select-Object -First 1
-  Stop-Process -Id $process.Id -Force
   $exeToStart = $process.ProcessName + ".exe" # either vim.exe or gvim.exe
-  Write-Host "Terminated running process $exeToStart"
+  Write-Host "Please quit Vim."
+}
+while ($vimProcesses) {
+  Start-Sleep -Seconds 1
+  $vimProcesses = Get-Process -Name vim, gvim -ErrorAction SilentlyContinue
 }
 
 # 3. Download and extract the latest 64-bit Vim ZIP archive
