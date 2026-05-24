@@ -18,7 +18,7 @@ function! vimupdate#Update() abort
   echo 'confirm qall'
   let sess = tempname()
   execute 'mksession' sess
-  call system($'start {cmd} -SessionFile {shellescape(sess)}')
+  call system($'start /D {$TEMP} {cmd} -SessionFile {shellescape(sess)}')
   confirm qa
 endfunction
 
