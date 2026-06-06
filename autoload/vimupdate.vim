@@ -4,8 +4,9 @@ function! vimupdate#Update() abort
     echoe 'vim-update supports only gvim.exe for Win32 x64'
     return
   endif
+  let powershell = executable('pwsh.exe') ? 'pwsh.exe' : 'powershell.exe'
   let cmd = [
-        \ 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File',
+        \ $'{powershell} -NoProfile -ExecutionPolicy Bypass -File',
         \ $'{s:plugin_dir}\bin\win32vimupdate.ps1',
         \ $'-CurrentVersionLong {v:versionlong}',
         \ $'-VimRuntime {shellescape($VIMRUNTIME)}'
